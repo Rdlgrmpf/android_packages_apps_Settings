@@ -128,6 +128,12 @@
             android:summary="@string/notification_convert_sound_to_vibration_summary"
             android:defaultValue="true" />
 
+    <CheckBoxPreference
+            android:key="tone_fs_only"
+            android:title="@string/tone_fs_only_title"
+            android:summary="@string/tone_fs_only_summary"
+            android:defaultValue="true" />
+
     <!-- Dock -->
     <PreferenceCategory
         android:key="dock_category"

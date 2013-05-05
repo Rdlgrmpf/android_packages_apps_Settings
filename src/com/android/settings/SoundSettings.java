@@ -95,6 +95,7 @@ public class SoundSettings extends SettingsPreferenceFragment implements
     private static final String KEY_POWER_NOTIFICATIONS = "power_notifications";
     private static final String KEY_POWER_NOTIFICATIONS_VIBRATE = "power_notifications_vibrate";
     private static final String KEY_POWER_NOTIFICATIONS_RINGTONE = "power_notifications_ringtone";
+    private static final String KEY_TONE_FULLSCREEN_ONLY = "tone_fs_only";
 
     private static final String RING_MODE_NORMAL = "normal";
     private static final String RING_MODE_VIBRATE = "vibrate";
@@ -130,6 +131,7 @@ public class SoundSettings extends SettingsPreferenceFragment implements
     private Preference mNotificationPreference;
     private PreferenceScreen mQuietHours;
     private CheckBoxPreference mSafeHeadsetVolume;
+    private CheckBoxPreference mNotificationFullscreen;
 
     private Runnable mRingtoneLookupRunnable;
 
@@ -239,6 +241,10 @@ public class SoundSettings extends SettingsPreferenceFragment implements
         mHapticFeedback.setPersistent(false);
         mHapticFeedback.setChecked(Settings.System.getInt(resolver,
                 Settings.System.HAPTIC_FEEDBACK_ENABLED, 1) != 0);
+        mNotificationFullscreen = (CheckBoxPreference) findPreference(KEY_TONE_FULLSCREEN_ONLY);
+        mNotificationFullscreen.setPersistent(false);
+        mNotificationFullscreen.setChecked(Settings.System.getInt(resolver,
+                Settings.System.NOTIFICATION_FULLSCREEN_ONLY, 1) != 0);
         mVolumeAdjustSounds = (CheckBoxPreference) findPreference(KEY_VOLUME_ADJUST_SOUNDS);
         if (mVolumeAdjustSounds != null) {
             if (!Utils.hasVolumeRocker(getActivity())) {
@@ -554,6 +560,9 @@ public class SoundSettings extends SettingsPreferenceFragment implements
                     Settings.System.putInt(getContentResolver(), Settings.System.SAFE_HEADSET_VOLUME, 1);
                 }
 
+        } else if (preference == mNotificationFullscreen) {
+            Settings.System.putInt(getContentResolver(), Settings.System.NOTIFICATION_FULLSCREEN_ONLY,
+                    mNotificationFullscreen.isChecked() ? 1 : 0);
         } else if (preference == mPowerSounds) {
             Settings.Global.putInt(getContentResolver(),
                     Settings.Global.POWER_NOTIFICATIONS_ENABLED,
